@@ -10,10 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_19_210732) do
+ActiveRecord::Schema.define(version: 2021_09_20_045158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "organization_services", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.bigint "service_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organization_id"], name: "index_organization_services_on_organization_id"
+    t.index ["service_id"], name: "index_organization_services_on_service_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_organizations_on_user_id"
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "time_slot_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["time_slot_id"], name: "index_reservations_on_time_slot_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "time_slots", force: :cascade do |t|
+    t.bigint "organization_service_id", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organization_service_id"], name: "index_time_slots_on_organization_service_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -31,4 +73,21 @@ ActiveRecord::Schema.define(version: 2021_09_19_210732) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "workers", force: :cascade do |t|
+    t.string "qualification"
+    t.string "first_name"
+    t.string "last_name"
+    t.bigint "organization_service_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["organization_service_id"], name: "index_workers_on_organization_service_id"
+  end
+
+  add_foreign_key "organization_services", "organizations"
+  add_foreign_key "organization_services", "services"
+  add_foreign_key "organizations", "users"
+  add_foreign_key "reservations", "time_slots"
+  add_foreign_key "reservations", "users"
+  add_foreign_key "time_slots", "organization_services"
+  add_foreign_key "workers", "organization_services"
 end
