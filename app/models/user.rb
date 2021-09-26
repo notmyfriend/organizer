@@ -28,5 +28,6 @@ class User < ApplicationRecord
   has_many :reservations
 
   enum role: [:client, :owner, :admin]
+  enum notifications: ['do not notify', '15 minutes', '3 hours', '1 day']
 
 end
