@@ -1,6 +1,6 @@
 <h1>Organizations</h1>
 
-<% unless @Organization.empty? %>
+<% unless @organizations.empty? %>
   <table>
     <thead>
       <tr>
@@ -13,12 +13,12 @@
     </thead>
 
     <tbody>
-      <% @Organization.each do |org| %>
+      <% @organizations.each do |org| %>
         <tr>
           <td><%= org.id %></td>
           <td><%= org.user_id %></td>
           <td><%= org.name %></td>
-          <td><%= user.created_at %></td>
+          <td><%= org.created_at %></td>
           <td><%= link_to "Show", org %></td>
           <td><%= link_to "Edit", edit_organization_path(org) %></td>
           <td><%= link_to "Destroy", org, method: :delete, data: { confirm: "Are you sure?" } %></td>

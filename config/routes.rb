@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :users, except: [:new, :create]
   resources :organizations
+  resources :services, except: :show
 
   get 'home/index'
   root to: "home#index"
