@@ -7,7 +7,7 @@
   <% @organization.services.each do |service| %>
     <div>
       <%= service.name %>
-      <!-- <%= link_to 'reserve time', reserve_action %> -->
+      <%= link_to 'book time' %>
     </div>
   <% end %>
 <% else %>
