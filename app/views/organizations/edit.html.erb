@@ -18,11 +18,12 @@
         <%= service.name %>
         <%= link_to 'edit service' %>
         <%= link_to 'edit time' %>
-        <%= link_to 'delete' %>
+        <% org_serv = service.organization_services.find_by(organization_id: @organization.id) %>
+        <%= link_to 'delete', organization_service_path(org_serv), method: :delete, data: { confirm: "Are you sure?" } %>
       </div>
     <% end %>
   <% end %>
-  <%= link_to 'add service' %>
+  <%= link_to 'add service', new_organization_service_path %>
 
   <div class="actions">
     <%= f.submit "Update" %>

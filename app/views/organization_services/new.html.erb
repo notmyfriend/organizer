@@ -1,0 +1,15 @@
+<%= form_with model: @organization_service do |f| %>
+  <div class="field">
+    <%= f.label :organization_id %><br />
+    <%= f.text_field :organization_id, autofocus: 'true' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :service_id %><br />
+    <%= f.text_field :service_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create" %>
+  </div>
+<% end %>
