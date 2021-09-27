@@ -1,2 +1,36 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<h1>Organizer</h1>
+
+<div><%= link_to 'profile', user_path(current_user.id) %></div>
+<div><%= link_to 'sign out', destroy_user_session_url, method: :delete %></div>
+
+<!-- dummy search form -->
+<div>
+  <%= form_with url: "/search", method: :get do |form| %>
+    <%= form.label :query, "Search for organization:" %>
+    <%= form.text_field :query %>
+    <%= form.submit "Search" %>
+  <% end %>
+</div>
+
+
+<div>
+  <% if current_user.admin? %>
+    <p>Last client reservations:</p>
+    <!-- <% Reservation.order(:updated_at).limit(40).each do |reservation| %>
+      <li>User id: <%= reservation.user_id %></li>
+      <li>Organization: <%= reservation.time_slot.organization_service.organization.name %></li>
+      <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
+      <li>Start time: <%= reservation.time_slot.start_time %></li>
+      <li>End time: <%= reservation.time_slot.end_time %></li>
+    <% end %>-->
+  <% else %>
+    <p>Your active reservations:</p>
+    <!-- <% current_user.reservations.each do |reservation| %>
+      <li>Organization: <%= reservation.time_slot.organization_service.organization.name %></li>
+      <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
+      <li>Start time: <%= reservation.time_slot.start_time %></li>
+      <li>End time: <%= reservation.time_slot.end_time %></li>
+    <% end %>-->
+  <% end %>
+</div>
+
