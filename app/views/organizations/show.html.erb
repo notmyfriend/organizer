@@ -1,0 +1,15 @@
+<h1><%= @organization.name %></h1>
+
+<div>Description</div>
+
+<% unless @organization.services.empty? %>
+  <p>Available services:</d>
+  <% @organization.services.each do |service| %>
+    <div>
+      <%= service.name %>
+      <!-- <%= link_to 'reserve time', reserve_action %> -->
+    </div>
+  <% end %>
+<% else %>
+  <p>Currently there are no available services</p>
+<% end %>

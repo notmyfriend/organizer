@@ -3,7 +3,8 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :users, only: [:index, :show, :edit, :update, :destroy]
+  resources :users, except: [:new, :create]
+  resources :organizations
 
   get 'home/index'
   root to: "home#index"
