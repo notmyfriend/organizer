@@ -1,0 +1,23 @@
+<h2>edit time slot</h2>
+
+
+<%= form_with model: @time_slot do |f| %>
+  <div class="field">
+    <%= f.label :organization_service_id %><br />
+    <%= f.text_field :organization_service_id, autofocus: 'true' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :start_time %><br />
+    <%= f.datetime_select :start_time, minute_step: 5 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :end_time %><br />
+    <%= f.datetime_select :end_time, minute_step: 5 %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+<% end %>

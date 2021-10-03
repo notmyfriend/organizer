@@ -13,13 +13,12 @@
 
   <% unless @organization.services.empty? %>
     <p>Services:</d>
-    <% @organization.services.each do |service| %>
+    <% @organization.organization_services.each do |org_service| %>
       <div>
-        <%= service.name %>
+        <%= org_service.service.name %>
         <%= link_to 'edit service' %>
-        <%= link_to 'edit time' %>
-        <% org_serv = service.organization_services.find_by(organization_id: @organization.id) %>
-        <%= link_to 'delete', organization_service_path(org_serv), method: :delete, data: { confirm: "Are you sure?" } %>
+        <%= link_to 'add time slots', new_time_slot_path %>
+        <%= link_to 'delete', organization_service_path(org_service.id), method: :delete, data: { confirm: "Are you sure?" } %>
       </div>
     <% end %>
   <% end %>

@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   resources :users, except: [:new, :create]
   resources :organizations
   resources :services, except: :show
-  resources :organization_services, only: [:new, :create, :destroy]
+  resources :organization_services, only: [:new, :create, :destroy] do
+    # resources :time_slots
+  end
+
+  resources :time_slots
 
   get 'home/index'
   root to: "home#index"
