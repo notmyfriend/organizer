@@ -17,7 +17,7 @@
       <div>
         <%= org_service.service.name %>
         <%= link_to 'edit service' %>
-        <%= link_to 'add time slots', new_time_slot_path %>
+        <%= link_to 'add time slots', new_organization_service_time_slot_path(org_service.id) %>
         <%= link_to 'delete', organization_service_path(org_service.id), method: :delete, data: { confirm: "Are you sure?" } %>
       </div>
     <% end %>

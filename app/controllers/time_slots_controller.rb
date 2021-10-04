@@ -1,14 +1,17 @@
 class TimeSlotsController < ApplicationController
+  before_action :get_organization_service
+
   def index
-    @time_slots = TimeSlot.all
+    @time_slots = @organization_service.time_slots
   end
 
   def new
-    @time_slot = TimeSlot.new
+    @time_slot = @organization_service.time_slots.build
   end
 
   def create
-    org_service_id = time_slot_params[:organization_service_id]
+    org_service_id = @organization_service.id
+
     start_time = get_datetime('start_time')
     end_time = get_datetime('end_time')
     duration = time_slot_params[:time_slot_duration].to_i
@@ -41,22 +44,22 @@ class TimeSlotsController < ApplicationController
     rescue ActiveRecord::RecordInvalid # => e
       render :new
     else
-      redirect_to edit_organization_path(OrganizationService.find(org_service_id).organization_id)
+      redirect_to edit_organization_path(@organization_service.organization_id)
     end
   end
 
   def edit
-    @time_slot = TimeSlot.find(params[:id])
+    @time_slot = @organization_service.time_slots.find(params[:id])
   end
 
   def update
-    @time_slot = TimeSlot.find(params[:id])
+    @time_slot = @organization_service.time_slots.find(params[:id])
 
     # TODO: check if start and end time are in the same day 
     # and don't intersect with existing intervals for this org_service
 
     if @time_slot.update(time_slot_params)
-      redirect_to time_slots_path
+      redirect_to organization_service_time_slots_path
     else
       render :edit
     end
@@ -64,10 +67,9 @@ class TimeSlotsController < ApplicationController
 
   def destroy
     @time_slot = TimeSlot.find(params[:id])
-    # organization_id = @time_slot.organization_service.organization_id
     @time_slot.destroy
 
-    redirect_to time_slots_path
+    redirect_to organization_service_time_slots_path
   end
 
   private
@@ -80,6 +82,10 @@ class TimeSlotsController < ApplicationController
       :time_slot_duration,
       :status
     )
+  end
+
+  def get_organization_service
+    @organization_service = OrganizationService.find(params[:organization_service_id])
   end
 
   def get_datetime(time)

@@ -1,13 +1,15 @@
-<h1>time slots</h1>
+<h1>Organization service <%= @organization_service.id %> time slots</h1>
 
-<% @time_slots.each do |ts| %>
+<% @time_slots.each do |time_slot| %>
   <div>
-    id: <%= ts.id %>
-    organization_service_id: <%= ts.organization_service_id %>
+    id: <%= time_slot.id %>
     <ul>
-      <li><%= ts.start_time%></li>
-      <li><%= ts.end_time%></li>
-      <%= link_to 'edit', edit_time_slot_path(ts.id) %> <%= link_to "delete", ts, method: :delete, data: { confirm: "Are you sure?" }  %>
+      <li><%= time_slot.start_time%></li>
+      <li><%= time_slot.end_time%></li>
+      <%= link_to 'edit', edit_organization_service_time_slot_path(@organization_service, time_slot) %> 
+      <%= link_to "delete", organization_service_time_slot_path(@organization_service, time_slot), method: :delete, data: { confirm: "Are you sure?" }  %>
     </ul>
   </div>
 <% end %>
+
+<%= link_to 'add', new_organization_service_time_slot_path(@organization_service.id) %> 

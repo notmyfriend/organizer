@@ -7,10 +7,10 @@ Rails.application.routes.draw do
   resources :organizations
   resources :services, except: :show
   resources :organization_services, only: [:new, :create, :destroy] do
-    # resources :time_slots
+    resources :time_slots
   end
 
-  resources :time_slots
+  resources :reservations
 
   get 'home/index'
   root to: "home#index"
