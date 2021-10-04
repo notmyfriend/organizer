@@ -65,6 +65,8 @@ GEM
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
+    autoprefixer-rails (10.3.3.0)
+      execjs (~> 2)
     bcrypt (3.1.16)
     bindex (0.8.1)
     bootsnap (1.9.0)
@@ -89,6 +91,7 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.10.0)
+    execjs (2.8.1)
     ffi (1.15.4)
     globalid (0.5.2)
       activesupport (>= 5.0)
@@ -105,6 +108,8 @@ GEM
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (1.0.1)
+    materialize-sass (1.0.0.1)
+      autoprefixer-rails (>= 6.0.3)
     method_source (1.0.0)
     mini_mime (1.1.1)
     minitest (5.14.4)
@@ -223,6 +228,7 @@ DEPENDENCIES
   devise
   jbuilder (~> 2.7)
   listen (~> 3.3)
+  materialize-sass
   pg (~> 1.1)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
