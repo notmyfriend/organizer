@@ -9,6 +9,6 @@
 #  updated_at   :datetime         not null
 #
 class Reservation < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, -> { where role: :client }
   belongs_to :time_slot
 end

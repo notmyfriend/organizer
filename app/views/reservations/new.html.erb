@@ -1,0 +1,37 @@
+<%= form_with url: reservations_path do |f| %>
+  <div>
+    <%= f.label :choose_date %><br />
+    <%= f.date_field :date %>
+  </div>
+ 
+  <div class="actions">
+    <%= hidden_field_tag(:organization_service_id, params[:organization_service_id]) %> <!-- delete when configure proper routing -->
+    <%= f.submit "search available time" %>
+    <% unless @time_slots.nil? || @time_slots.empty? %>
+      <%= f.submit "book" %>
+      regular? <%= f.check_box :regular %>
+    <% end %>
+  </div>
+
+  <% unless @time_slots.nil?%>
+    <% if @time_slots.empty? %>
+      <p>currently there are no time slots</p>
+    <% else %>
+      <% @time_slots.each do |time_slot| %>
+        <div>
+          <li>
+            <%= time_slot.start_time.to_s(:time) + ' - ' + time_slot.end_time.to_s(:time) %>
+          </li>
+          <li>
+            <% if time_slot.vacant? %>
+              <%= f.radio_button :time_slot_id, time_slot.id %>
+            <% else %>
+              notify when vacant? <%= f.check_box :notify %>
+            <% end %>
+          </li> 
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
+<% end %>

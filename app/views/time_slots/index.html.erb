@@ -6,8 +6,8 @@
     <ul>
       <li><%= time_slot.start_time%></li>
       <li><%= time_slot.end_time%></li>
-      <%= link_to 'edit', edit_organization_service_time_slot_path(@organization_service, time_slot) %> 
-      <%= link_to "delete", organization_service_time_slot_path(@organization_service, time_slot), method: :delete, data: { confirm: "Are you sure?" }  %>
+        <%= link_to 'edit', edit_organization_service_time_slot_path(@organization_service, time_slot) %> 
+        <%= link_to "delete", organization_service_time_slot_path(@organization_service, time_slot), method: :delete, data: { confirm: "Are you sure?" }  %>
     </ul>
   </div>
 <% end %>
