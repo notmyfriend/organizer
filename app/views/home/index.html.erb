@@ -1,7 +1,7 @@
 <h1>Organizer</h1>
 
 <div><%= link_to 'profile', user_path(current_user.id) %></div>
-<div><%= button_to 'sign out', destroy_user_session_path, method: :delete %></div>
+<div><%= link_to 'sign out', destroy_user_session_path, method: :delete %></div>
 
 <!-- dummy search form -->
 <div>
