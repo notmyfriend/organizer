@@ -33,10 +33,10 @@ class ReservationsController < ApplicationController
 
   def destroy
     @reservation = Reservation.find(params[:id])
+    ReservationMailer.with(reservation: @reservation).cancel_reservation_email.deliver_later
     @reservation.destroy
 
     TimeSlot.find(@reservation.time_slot_id).update(status: :vacant)
-    ReservationMailer.with(reservation: @reservation).cancel_reservation_email.deliver_later
 
     redirect_to root_path
   end
