@@ -23,7 +23,7 @@ class ReservationsController < ApplicationController
       )
       if @reservation.save
         ReservationMailer.with(reservation: @reservation).new_reservation_email.deliver_later
-        TimeSlot.find(@reservation.time_slot_id).update(status: :booked)
+        @reservation.time_slot.update(status: :booked)
         redirect_to TimeSlot.find(@reservation.time_slot_id).organization_service.organization
       else
         render :new
@@ -33,10 +33,9 @@ class ReservationsController < ApplicationController
 
   def destroy
     @reservation = Reservation.find(params[:id])
-    ReservationMailer.with(reservation: @reservation).cancel_reservation_email.deliver_later
     @reservation.destroy
-
-    TimeSlot.find(@reservation.time_slot_id).update(status: :vacant)
+    ReservationMailer.with(reservation: @reservation).cancel_reservation_email.deliver_now
+    @reservation.time_slot.update(status: :vacant)
 
     redirect_to root_path
   end
