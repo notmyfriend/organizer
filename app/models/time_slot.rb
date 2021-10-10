@@ -13,6 +13,7 @@
 class TimeSlot < ApplicationRecord
   belongs_to :organization_service
   has_one :reservation
+  has_many :subscriptions
 
   enum status: [:vacant, :booked]
 end
