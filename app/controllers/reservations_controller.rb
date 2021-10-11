@@ -17,16 +17,26 @@ class ReservationsController < ApplicationController
     end
 
     if params[:commit] == 'book'
-      @reservation = Reservation.new(
-        user_id: current_user.id,
-        time_slot_id: params[:time_slot_id]
-      )
-      if @reservation.save
-        ReservationMailer.with(reservation: @reservation).new_reservation_email.deliver_later
-        @reservation.time_slot.update(status: :booked)
-        redirect_to TimeSlot.find(@reservation.time_slot_id).organization_service.organization
-      else
-        render :new
+      unless params[:notify_time_slot_ids].nil?
+        Subscription.transaction do
+          params[:notify_time_slot_ids].each do |id|
+            current_user.subscriptions.create!(time_slot_id: id)
+          end
+        end
+      end
+
+      unless params[:time_slot_id].nil?
+        @reservation = Reservation.new(
+          user_id: current_user.id,
+          time_slot_id: params[:time_slot_id]
+        )
+        if @reservation.save
+          ReservationMailer.with(reservation: @reservation).new_reservation_email.deliver_later
+          @reservation.time_slot.update(status: :booked)
+          redirect_to @reservation.time_slot.organization_service.organization
+        else
+          render :new
+        end
       end
     end
   end
@@ -36,6 +46,7 @@ class ReservationsController < ApplicationController
     @reservation.destroy
     ReservationMailer.with(reservation: @reservation).cancel_reservation_email.deliver_now
     @reservation.time_slot.update(status: :vacant)
+    TimeSlotStatusChangeWorker.perform_async(@reservation.time_slot_id)
 
     redirect_to root_path
   end

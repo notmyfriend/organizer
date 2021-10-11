@@ -1,0 +1,12 @@
+Time slot you subscribed to changed its status to vacant.
+
+Time slot details
+--------------------------
+
+Time slot id: <%= @time_slot.id %>
+Organization: <%= @time_slot.organization_service.organization.name %>
+Service: <%= @time_slot.organization_service.service.name %>
+start time: <%= @time_slot.start_time %>
+end time: <%= @time_slot.end_time %>
+
+----------

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Time slot you subscribed to changed its status to vacant.</p>
+    <p>
+    Time slot details<br>
+    --------------------------
+    </p>
+    <p>Time slot id: <%= @time_slot.id %></p>
+    <p>Organization: <%= @time_slot.organization_service.organization.name %></p>
+    <p>Service: <%= @time_slot.organization_service.service.name %></p>
+    <p>start time: <%= @time_slot.start_time %></p>
+    <p>end time: <%= @time_slot.end_time %></p>
+    <p>
+    ----------
+    </p>
+  </body>
+</html>
