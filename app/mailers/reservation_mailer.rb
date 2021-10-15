@@ -1,7 +1,7 @@
 class ReservationMailer < ApplicationMailer
   def new_reservation_email
-    @reservation = params[:reservation]
-    @user = User.find(@reservation.user_id)
+    @reservations = Reservation.where(id: params[:reservations_ids])
+    @user = User.find(params[:user_id])
     mail(to: @user.email, subject: 'New reservation')
   end
 
@@ -12,9 +12,6 @@ class ReservationMailer < ApplicationMailer
   end
 
   def reminder_email
-    puts '===================='
-    puts 'in mailer'
-    puts '===================='
     @reservation = TimeSlot.find(params[:reservation_id])
     @user = @reservation.user
     mail(to: @user.email, subject: 'Reservation reminder')
