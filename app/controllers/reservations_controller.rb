@@ -3,7 +3,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
   end
 
-  def create
+  def create      # создание не дальше 3 месяца
     if params[:commit] == 'search available time'
       unless params[:date].empty?
         date = Date.parse(params[:date])
@@ -31,8 +31,9 @@ class ReservationsController < ApplicationController
           time_slot_id: params[:time_slot_id]
         )
         if @reservation.save
-          ReservationMailer.with(reservation: @reservation).new_reservation_email.deliver_later
           @reservation.time_slot.update(status: :booked)
+          ReservationMailer.with(reservation: @reservation).new_reservation_email.deliver_later
+
           redirect_to @reservation.time_slot.organization_service.organization
         else
           render :new

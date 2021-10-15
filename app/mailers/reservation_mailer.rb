@@ -11,11 +11,14 @@ class ReservationMailer < ApplicationMailer
     mail(to: @user.email, subject: 'Reservation cancelled')
   end
 
-  # def start_time_reminder_email
-  #   @reservation = params[:reservation]
-  #   @user = User.find(@reservation.user_id)
-  #   mail(to: @user.email, subject: 'Reservation start time reminder')
-  # end
+  def reminder_email
+    puts '===================='
+    puts 'in mailer'
+    puts '===================='
+    @reservation = TimeSlot.find(params[:reservation_id])
+    @user = @reservation.user
+    mail(to: @user.email, subject: 'Reservation reminder')
+  end
 
   def time_slot_status_change_email
     @user = User.find(params[:user_id])

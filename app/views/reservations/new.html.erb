@@ -9,7 +9,7 @@
     <%= f.submit "search available time" %>
     <% unless @time_slots.nil? || @time_slots.empty? %>
       <%= f.submit "book" %>
-      regular? <%= f.check_box :regular %>
+      regular? <%= f.select :regular, [:no, :weekly, :monthly] %>
     <% end %>
   </div>
 
