@@ -10,4 +10,6 @@
 class Service < ApplicationRecord
   has_many :organization_services
   has_many :organizations, through: :organization_services
+
+  searchkick searchable: [:name], word_start: [:name]
 end

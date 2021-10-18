@@ -3,39 +3,72 @@
 <div><%= link_to 'profile', user_path(current_user.id) %></div>
 <div><%= link_to 'sign out', destroy_user_session_path, method: :delete %></div>
 
-<!-- dummy search form -->
 <div>
-  <%= form_with url: "/search", method: :get do |form| %>
-    <%= form.label :query, "Search for organization:" %>
-    <%= form.text_field :query %>
+  <%= form_with url: root_url, method: :get do |form| %>
+    <%= form.label :search_query, "Search for organization:" %>
+    <%= form.text_field :search_query %>
     <%= form.submit "Search" %>
   <% end %>
 </div>
+
+
+<% if @organizations %>
+  <% @organizations.each do |organization| %>
+    <div><%= link_to organization.name, organization_path(organization.id) %></div>
+  <% end %>
+<% end %>
+<!--
+<% if @organizations_by_name %>
+  <% @organizations_by_name.each do |organization| %>
+    <div><%= link_to organization.name, organization_path(organization.id) %></div>
+  <% end %>
+<% end %>
+<% if @organizations_by_service %>
+  <% @organizations_by_service.each do |pair| %>
+    <% unless pair.last.empty? %>
+      <% service_name = pair.first.name %>
+      <% pair.last.each do |organization| %>
+        <div>
+          <%= link_to organization.name, organization_path(organization.id) %>
+          <h5><%= service_name %></h5>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %> -->
 
 
 <div>
   <% if current_user.admin? %>
     <p>Last client reservations:</p>
     <% Reservation.order(:updated_at).limit(40).each do |reservation| %>
-      <ul>
-        <li>User id: <%= reservation.user_id %></li>
-        <li>Organization: <%= reservation.time_slot.organization_service.organization.name %></li>
-        <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
-        <li>Start time: <%= reservation.time_slot.start_time %></li>
-        <li>End time: <%= reservation.time_slot.end_time %></li>
-        <li><%= button_to 'delete', reservation_path(reservation.id), method: :delete %></li>
-      </ul>
+      <div class="row">
+      <div class="col s12 m4 l1">
+        <ul>
+          <li>User id: <%= reservation.user_id %></li>
+          <li>Organization: <%= reservation.time_slot.organization_service.organization.name %></li>
+          <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
+          <li>Start time: <%= reservation.time_slot.start_time %></li>
+          <li>End time: <%= reservation.time_slot.end_time %></li>
+          <li><%= button_to 'delete', reservation_path(reservation.id), method: :delete %></li>
+        </ul>
+      </div>
+      </div>
     <% end %>
   <% else %>
     <p>Your active reservations:</p>
     <% current_user.reservations.each do |reservation| %>
-      <ul>
-        <li>Organization: <%= reservation.time_slot.organization_service.organization.name %></li>
-        <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
-        <li>Start time: <%= reservation.time_slot.start_time %></li>
-        <li>End time: <%= reservation.time_slot.end_time %></li>
-        <li><%= button_to 'delete', reservation_path(reservation.id), method: :delete %></li>
-      </ul>
+      <div class="row">
+      <div class="col s12 m4 l4">
+        <ul>
+          <li>Organization: <%= reservation.time_slot.organization_service.organization.name %></li>
+          <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
+          <li>Start time: <%= reservation.time_slot.start_time %></li>
+          <li>End time: <%= reservation.time_slot.end_time %></li>
+          <li><%= button_to 'delete', reservation_path(reservation.id), method: :delete %></li>
+        </ul>
+      </div>
+      </div>
     <% end %>
   <% end %>
 </div>

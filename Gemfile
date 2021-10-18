@@ -63,3 +63,5 @@ gem 'devise'
 
 gem 'sidekiq'
 gem 'sidekiq-cron'
+
+gem 'searchkick'
