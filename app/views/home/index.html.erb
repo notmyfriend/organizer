@@ -48,8 +48,8 @@
           <li>User id: <%= reservation.user_id %></li>
           <li>Organization: <%= reservation.time_slot.organization_service.organization.name %></li>
           <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
-          <li>Start time: <%= reservation.time_slot.start_time %></li>
-          <li>End time: <%= reservation.time_slot.end_time %></li>
+          <li>Start time: <%= reservation.time_slot.start_time.in_time_zone('Minsk') %></li>
+          <li>End time: <%= reservation.time_slot.end_time.in_time_zone('Minsk') %></li>
           <li><%= button_to 'delete', reservation_path(reservation.id), method: :delete %></li>
         </ul>
       </div>
@@ -63,8 +63,8 @@
         <ul>
           <li>Organization: <%= reservation.time_slot.organization_service.organization.name %></li>
           <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
-          <li>Start time: <%= reservation.time_slot.start_time %></li>
-          <li>End time: <%= reservation.time_slot.end_time %></li>
+          <li>Start time: <%= reservation.time_slot.start_time.in_time_zone('Minsk') %></li>
+          <li>End time: <%= reservation.time_slot.end_time.in_time_zone('Minsk') %></li>
           <li><%= button_to 'delete', reservation_path(reservation.id), method: :delete %></li>
         </ul>
       </div>

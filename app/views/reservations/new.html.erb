@@ -20,7 +20,7 @@
       <% @time_slots.each do |time_slot| %>
         <div>
           <li>
-            <%= time_slot.start_time.to_s(:time) + ' - ' + time_slot.end_time.to_s(:time) %>
+            <%= time_slot.start_time.in_time_zone('Minsk').to_s(:time) + ' - ' + time_slot.end_time.in_time_zone('Minsk').to_s(:time) %>
           </li>
           <li>
             <% if time_slot.vacant? %>

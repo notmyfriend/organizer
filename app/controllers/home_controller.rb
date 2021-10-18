@@ -20,7 +20,7 @@ class HomeController < ApplicationController
         organizations_by_name = Organization.find_by_sql(
           ['select * from organizations where name like ?', "%#{@query}%"]
         )
-        @organizations_by_service = Service.find_by_sql(
+        organizations_by_service = Service.find_by_sql(
           ['select * from services where name like ?', "%#{@query}%"]
         # ).map { |service| [service, service.organizations] }
         ).map(&:organizations)

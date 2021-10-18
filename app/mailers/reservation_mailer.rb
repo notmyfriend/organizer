@@ -12,7 +12,7 @@ class ReservationMailer < ApplicationMailer
   end
 
   def reminder_email
-    @reservation = TimeSlot.find(params[:reservation_id])
+    @reservation = Reservation.find(params[:reservation_id])
     @user = @reservation.user
     mail(to: @user.email, subject: 'Reservation reminder')
   end

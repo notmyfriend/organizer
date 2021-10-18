@@ -35,7 +35,7 @@ class ReservationsController < ApplicationController
         }
 
         unless params[:regular] == 'no'
-          temp_date = DateTime.now + 2.month
+          temp_date = DateTime.current + 2.month
           end_date = DateTime.new(temp_date.year, temp_date.month)
 
           start_time = TimeSlot.find(params[:time_slot_id]).start_time

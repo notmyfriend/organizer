@@ -6,7 +6,7 @@ Reservation details
 Reservation id: <%= @reservation.id %>
 Organization: <%= @reservation.time_slot.organization_service.organization.name %>
 Service: <%= @reservation.time_slot.organization_service.service.name %>
-start time: <%= @reservation.time_slot.start_time %>
-end time: <%= @reservation.time_slot.end_time %>
+start time: <%= @reservation.time_slot.start_time.in_time_zone('Minsk') %>
+end time: <%= @reservation.time_slot.end_time.in_time_zone('Minsk') %>
 
 ----------

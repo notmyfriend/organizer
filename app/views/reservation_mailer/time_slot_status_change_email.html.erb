@@ -12,8 +12,8 @@
     <p>Time slot id: <%= @time_slot.id %></p>
     <p>Organization: <%= @time_slot.organization_service.organization.name %></p>
     <p>Service: <%= @time_slot.organization_service.service.name %></p>
-    <p>start time: <%= @time_slot.start_time %></p>
-    <p>end time: <%= @time_slot.end_time %></p>
+    <p>start time: <%= @time_slot.start_time.in_time_zone('Minsk') %></p>
+    <p>end time: <%= @time_slot.end_time.in_time_zone('Minsk') %></p>
     <p>
     ----------
     </p>
