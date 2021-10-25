@@ -12,30 +12,25 @@
 </div>
 
 
-<% if @organizations %>
-  <% @organizations.each do |organization| %>
-    <div><%= link_to organization.name, organization_path(organization.id) %></div>
-  <% end %>
-<% end %>
-<!--
 <% if @organizations_by_name %>
   <% @organizations_by_name.each do |organization| %>
-    <div><%= link_to organization.name, organization_path(organization.id) %></div>
+    <div>
+      <h5><%= link_to organization.name, organization_path(organization.id) %></h5>
+    </div>
   <% end %>
 <% end %>
-<% if @organizations_by_service %>
-  <% @organizations_by_service.each do |pair| %>
-    <% unless pair.last.empty? %>
-      <% service_name = pair.first.name %>
-      <% pair.last.each do |organization| %>
-        <div>
-          <%= link_to organization.name, organization_path(organization.id) %>
-          <h5><%= service_name %></h5>
-        </div>
-      <% end %>
-    <% end %>
+
+<% if @organizations_by_services_hash %>
+  <% @organizations_by_services_hash.keys.each do |organization| %>
+    <div>
+        <h5><%= link_to organization.name, organization_path(organization.id) %></h5>
+        Services:
+        <% @organizations_by_services_hash[organization].each do |service| %>
+          <b><%= service.name %></b>
+        <% end %>
+    </div>
   <% end %>
-<% end %> -->
+<% end %>
 
 
 <div>

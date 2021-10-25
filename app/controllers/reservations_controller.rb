@@ -3,7 +3,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
   end
 
-  def create
+  def create  # после подписки переносить на главную
     if params[:commit] == 'search available time'
       unless params[:date].empty?
         date = Date.parse(params[:date])
@@ -74,12 +74,17 @@ class ReservationsController < ApplicationController
           @reservations.each do |reservation|
             reservations_ids << reservation.id
           end
-          ReservationMailer.with(user_id: current_user.id, reservations_ids: reservations_ids).new_reservation_email.deliver_later
+
+          ReservationMailer.with(
+            user_id: current_user.id,
+            reservations_ids: reservations_ids
+          ).new_reservation_email.deliver_later
+
           unless unavailable_time.empty?
             flash[:notice] = "Unable to book following time:
                               #{unavailable_time.join(', ')}."
           end
-          redirect_to @reservations.first.time_slot.organization_service.organization
+          redirect_to root_path
         end
 
       else
