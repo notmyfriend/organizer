@@ -12,7 +12,14 @@ Rails.application.routes.draw do
     # resources :reservations
   end
 
-  resources :organizations
+  resources :organizations do
+    resources :comments, only: [:new, :create, :destroy]
+  end
+
+  resources :comments, only: [:new, :create, :destroy] do
+    resources :comments, only: [:new, :create, :destroy]
+  end
+
   resources :services, except: :show
   resources :organization_services, only: [:new, :create, :destroy] do
     resources :time_slots

@@ -13,3 +13,20 @@
 <% else %>
   <p>Currently there are no available services</p>
 <% end %>
+
+
+<div id="comments-section">
+  <div id="header">
+    <h5>Comments</h5>
+
+    <%= form_with(model: [@organization, Comment.new], id: 'new-comment-form', local: false) do |f| %>
+      <%= f.text_area :content %><br/> 
+      <%= f.submit 'add comment' %>
+    <% end %>
+  </div>
+
+  <div id="comments">
+    <%= render partial: 'comments/comment', collection: @organization.comments.order(id: :asc) %>
+  </div>
+</div>
+

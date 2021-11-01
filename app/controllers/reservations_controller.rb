@@ -3,7 +3,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new
   end
 
-  def create  # после подписки переносить на главную
+  def create
     if params[:commit] == 'search available time'
       unless params[:date].empty?
         date = Date.parse(params[:date])

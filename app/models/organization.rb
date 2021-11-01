@@ -12,6 +12,7 @@ class Organization < ApplicationRecord
   belongs_to :user, -> { where role: :owner }
   has_many :organization_services
   has_many :services, through: :organization_services
+  has_many :comments, as: :commentable
 
   searchkick searchable: [:name], word_start: [:name]
 end
