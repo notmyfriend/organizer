@@ -1,0 +1,21 @@
+<h4>Search results for '<%= @query %>':</h4>
+
+<% if @organizations_by_name %>
+  <% @organizations_by_name.each do |organization| %>
+    <div>
+      <h5><%= link_to organization.name, organization_path(organization.id) %></h5>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @organizations_by_services_hash %>
+  <% @organizations_by_services_hash.keys.each do |organization| %>
+    <div>
+        <h5><%= link_to organization.name, organization_path(organization.id) %></h5>
+        Services:
+        <% @organizations_by_services_hash[organization].each do |service| %>
+          <b><%= service.name %></b>
+        <% end %>
+    </div>
+  <% end %>
+<% end %>
