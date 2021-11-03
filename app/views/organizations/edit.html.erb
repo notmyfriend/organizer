@@ -16,9 +16,22 @@
     <% @organization.organization_services.each do |org_service| %>
       <div>
         <%= org_service.service.name %>
-        <%= link_to 'edit service' %>
+        <%= link_to 'edit service', edit_service_path(org_service.service.id) %>
         <%= link_to 'add time slots', new_organization_service_time_slot_path(org_service.id) %>
         <%= link_to 'delete', organization_service_path(org_service.id), method: :delete, data: { confirm: "Are you sure?" } %>
+
+        <div style="padding: 10px;">
+          <p>Service workers:</p>
+          <% org_service.workers.each do |worker| %>
+            <div>
+              <%= "#{worker.last_name} #{worker.first_name}: #{worker.qualification}" %>
+              <%= link_to 'edit', edit_organization_service_worker_path(org_service.id, worker.id) %>
+              <%= link_to 'delete', organization_service_worker_path(org_service.id, worker.id), method: :delete, data: { confirm: "Are you sure?" }  %>
+            </div>
+          <% end %>
+          <%= link_to 'add worker', new_organization_service_worker_path(org_service.id) %>
+        </div>
+        
       </div>
     <% end %>
   <% end %>

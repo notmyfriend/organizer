@@ -12,4 +12,6 @@
 #
 class Worker < ApplicationRecord
   belongs_to :organization_service
+
+  validates :first_name, :last_name, :qualification, presence: true
 end

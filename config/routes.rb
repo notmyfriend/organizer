@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :services, except: :show
   resources :organization_services, only: [:new, :create, :destroy] do
     resources :time_slots
+    resources :workers, except: [:index, :show]
   end
 
   resources :reservations

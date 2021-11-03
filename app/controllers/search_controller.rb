@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   def index
     @query = params[:search_query]
-    redirect_to root_path unless @query
+    redirect_to root_path if @query.nil? || @query.empty?
 
     @organizations_by_name,
     @organizations_by_services_hash = elasticsearch_available? ? search_elasticsearch(@query) : search_db(@query)

@@ -8,6 +8,16 @@
     <div>
       <%= org_service.service.name %>
       <%= link_to 'book time', new_reservation_path(organization_service_id: org_service.id) %> <!-- delete local param when configure proper routing -->
+      <% unless org_service.workers.empty? %>
+        <div style="padding: 10px;">
+          <p >Staff:</p>
+          <ul>
+            <% org_service.workers.each do |worker| %>
+              <li><%= "#{worker.last_name} #{worker.first_name} - #{worker.qualification}" %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
     </div>
   <% end %>
 <% else %>
