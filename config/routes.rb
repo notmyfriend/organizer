@@ -8,7 +8,10 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :users, except: [:new, :create]
+  resources :users, except: [:new, :create] do
+    get 'lock', to: 'users#lock'
+    get 'unlock', to: 'users#unlock'
+  end
 
   resources :organizations do
     resources :organization_services, only: [:new, :create, :destroy]

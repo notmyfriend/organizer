@@ -10,7 +10,8 @@
       <th>email</th>
       <th>notifications</th>
       <th>created at</th>
-      <th colspan="3"></th>
+      <th>locked</th>
+      <th colspan="4"></th>
     </tr>
   </thead>
 
@@ -24,8 +25,16 @@
         <td><%= user.email %></td>
         <td><%= user.notifications %></td>
         <td><%= user.created_at %></td>
+        <td><%= user.locked_at || 'no' %></td>
         <td><%= link_to "Show", user %></td>
         <td><%= link_to "Edit", edit_user_path(user) %></td>
+        <td>
+          <% if user.locked_at %>
+            <%= link_to "Unlock", user_unlock_path(user) %>
+          <% else %>
+            <%= link_to "Lock", user_lock_path(user) %>
+          <% end %>
+        </td>
         <td><%= link_to "Destroy", user, method: :delete, data: { confirm: "Are you sure?" } %></td>
       </tr>
     <% end %>

@@ -11,18 +11,19 @@
 #  role                   :integer          default("client"), not null
 #  first_name             :string
 #  last_name              :string
-#  notifications          :integer
+#  notifications          :integer          default("do not notify")
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  confirmation_token     :string
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
+#  locked_at              :datetime
 #
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :confirmable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, :lockable
 
   has_many :organizations
   has_many :reservations
