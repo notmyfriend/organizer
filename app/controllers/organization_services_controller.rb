@@ -1,13 +1,15 @@
 class OrganizationServicesController < ApplicationController
+  before_action :find_organization
+
   def new
-    @organization_service = OrganizationService.new
+    @organization_service = @organization.organization_services.new
   end
 
   def create
-    @organization_service = OrganizationService.new(organization_service_params)
+    @organization_service = @organization.organization_services.new(organization_service_params)
 
     if @organization_service.save
-      redirect_to edit_organization_path(organization_service_params[:organization_id])
+      redirect_to edit_organization_path(@organization)
     else
       render :new
     end
@@ -15,16 +17,18 @@ class OrganizationServicesController < ApplicationController
 
   def destroy
     @organization_service = OrganizationService.find(params[:id])
-    organization = @organization_service.organization_id
-
     @organization_service.destroy
 
-    redirect_to edit_organization_path(organization)
+    redirect_to edit_organization_path(@organization)
   end
 
   private
 
   def organization_service_params
-    params.require(:organization_service).permit(:organization_id, :service_id)
+    params.require(:organization_service).permit(:service_id)
+  end
+
+  def find_organization
+    @organization = Organization.find(params[:organization_id])
   end
 end

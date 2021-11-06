@@ -3,8 +3,8 @@ class ReservationScheduleWorker
 
   def perform
     current_time = DateTime.current
-    @reservations = Reservation.joins(:user).where.not(users: { notifications: 'do not notify' })
-                               .joins(:time_slot).where(time_slots: { start_time: current_time..(current_time + 1.day) })
+    @reservations = Reservation.joins(:user, :time_slot).where.not(users: { notifications: 'do not notify' })
+                               .where(time_slots: { start_time: current_time..(current_time + 1.day) })
 
     @reservations.each do |reservation|
       if should_notify?(reservation, current_time)

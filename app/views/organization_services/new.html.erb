@@ -1,12 +1,9 @@
-<%= form_with model: @organization_service do |f| %>
-  <div class="field">
-    <%= f.label :organization_id %><br />
-    <%= f.text_field :organization_id, autofocus: 'true' %>
-  </div>
+<h1>Add service to "<%= @organization.name %>"</h1>
 
+<%= form_with model: [@organization, @organization_service] do |f| %>
   <div class="field">
     <%= f.label :service_id %><br />
-    <%= f.text_field :service_id %>
+    <%= f.select :service_id, Service.all.collect {|service| [service.name, service.id]} %>
   </div>
 
   <div class="actions">

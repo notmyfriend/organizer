@@ -8,20 +8,20 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :users, except: [:new, :create] do
-    # resources :reservations
-  end
+  resources :users, except: [:new, :create]
 
   resources :organizations do
+    resources :organization_services, only: [:new, :create, :destroy]
     resources :comments, only: [:new, :create, :destroy]
   end
 
-  resources :comments, only: [:new, :create, :destroy] do
+  resources :comments do
     resources :comments, only: [:new, :create, :destroy]
   end
 
   resources :services, except: :show
-  resources :organization_services, only: [:new, :create, :destroy] do
+
+  resources :organization_services do
     resources :time_slots
     resources :workers, except: [:index, :show]
   end
