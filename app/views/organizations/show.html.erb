@@ -1,6 +1,6 @@
 <h1><%= @organization.name %></h1>
 
-<div>Description</div>
+<div id="org-description"><%= @organization.description %></div>
 
 <% unless @organization.organization_services.empty? %>
   <p>Available services:</d>

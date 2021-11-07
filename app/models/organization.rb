@@ -2,11 +2,12 @@
 #
 # Table name: organizations
 #
-#  id         :bigint           not null, primary key
-#  name       :string           not null
-#  user_id    :bigint           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  name        :string           not null
+#  user_id     :bigint           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  description :text             default(""), not null
 #
 class Organization < ApplicationRecord
   belongs_to :user, -> { where role: :owner }
