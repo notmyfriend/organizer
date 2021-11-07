@@ -9,7 +9,7 @@
 #  description :text             default(""), not null
 #
 class Service < ApplicationRecord
-  has_many :organization_services
+  has_many :organization_services, dependent: :restrict_with_error
   has_many :organizations, through: :organization_services
 
   searchkick searchable: [:name], word_start: [:name]

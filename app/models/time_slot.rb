@@ -12,8 +12,8 @@
 #
 class TimeSlot < ApplicationRecord
   belongs_to :organization_service
-  has_one :reservation
-  has_many :subscriptions
+  has_one :reservation,    dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   enum status: [:vacant, :booked]
 end

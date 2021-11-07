@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_07_141006) do
+ActiveRecord::Schema.define(version: 2021_11_07_224245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2021_11_07_141006) do
     t.bigint "service_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["organization_id", "service_id"], name: "index_organization_services_on_organization_id_and_service_id", unique: true
     t.index ["organization_id"], name: "index_organization_services_on_organization_id"
     t.index ["service_id"], name: "index_organization_services_on_service_id"
   end
@@ -41,6 +42,7 @@ ActiveRecord::Schema.define(version: 2021_11_07_141006) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "description", default: "", null: false
+    t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["user_id"], name: "index_organizations_on_user_id"
   end
 

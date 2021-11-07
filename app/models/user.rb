@@ -26,9 +26,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :lockable
 
   has_many :organizations
-  has_many :reservations
-  has_many :subscriptions
-  has_many :comments
+  has_many :reservations,  dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :comments,      dependent: :destroy
 
   enum role: [:client, :owner, :admin]
   enum notifications: ['do not notify', '15 minutes', '3 hours', '1 day']

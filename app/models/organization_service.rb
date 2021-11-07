@@ -11,6 +11,6 @@
 class OrganizationService < ApplicationRecord
   belongs_to :organization
   belongs_to :service
-  has_many :workers
-  has_many :time_slots
+  has_many :workers,    dependent: :destroy
+  has_many :time_slots, dependent: :destroy
 end

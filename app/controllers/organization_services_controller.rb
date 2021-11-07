@@ -8,9 +8,13 @@ class OrganizationServicesController < ApplicationController
   def create
     @organization_service = @organization.organization_services.new(organization_service_params)
 
-    if @organization_service.save
-      redirect_to edit_organization_path(@organization)
-    else
+    begin
+      if @organization_service.save
+        redirect_to edit_organization_path(@organization)
+      else
+        render :new
+      end
+    rescue ActiveRecord::RecordNotUnique
       render :new
     end
   end

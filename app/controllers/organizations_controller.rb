@@ -14,9 +14,13 @@ class OrganizationsController < ApplicationController
   def create
     @organization = Organization.new(organization_params)
 
-    if @organization.save
-      redirect_to @organization
-    else
+    begin
+      if @organization.save
+        redirect_to @organization
+      else
+        render :new
+      end
+    rescue ActiveRecord::RecordNotUnique
       render :new
     end
   end
@@ -28,9 +32,13 @@ class OrganizationsController < ApplicationController
   def update
     @organization = Organization.find(params[:id])
 
-    if @organization.update(organization_params)
-      redirect_to @organization
-    else
+    begin
+      if @organization.update(organization_params)
+        redirect_to @organization
+      else
+        render :edit
+      end
+    rescue ActiveRecord::RecordNotUnique
       render :edit
     end
   end
