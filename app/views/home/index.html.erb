@@ -3,10 +3,10 @@
 <div><%= link_to 'profile', user_path(current_user.id) %></div>
 <div><%= link_to 'sign out', destroy_user_session_path, method: :delete %></div>
 
-<div>
+<div class="ui-widget"> 
   <%= form_with url: '/search', method: :get do |form| %>
     <%= form.label :search_query, "Search for organization:" %>
-    <%= form.text_field :search_query %>
+    <%= form.text_field :search_query, id: 'query' %>
     <%= form.submit "Search" %>
   <% end %>
 </div>
@@ -24,7 +24,7 @@
           <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
           <li>Start time: <%= reservation.time_slot.start_time.in_time_zone('Minsk') %></li>
           <li>End time: <%= reservation.time_slot.end_time.in_time_zone('Minsk') %></li>
-          <li><%= button_to 'delete', reservation_path(reservation.id), method: :delete %></li>
+          <li><%= button_to 'delete', reservation_path(reservation), method: :delete %></li>
         </ul>
       </div>
       </div>
@@ -39,7 +39,7 @@
           <li>Service: <%= reservation.time_slot.organization_service.service.name %></li>
           <li>Start time: <%= reservation.time_slot.start_time.in_time_zone('Minsk') %></li>
           <li>End time: <%= reservation.time_slot.end_time.in_time_zone('Minsk') %></li>
-          <li><%= button_to 'delete', reservation_path(reservation.id), method: :delete %></li>
+          <li><%= button_to 'delete', reservation_path(reservation), method: :delete %></li>
         </ul>
       </div>
       </div>
@@ -47,3 +47,18 @@
   <% end %>
 </div>
 
+
+<script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+<script>
+  let autocomplete_results = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.whitespace,
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: {
+        url: '/search/autocomplete?query=%QUERY',
+        wildcard: '%QUERY'
+      }
+    });
+  $('#query').typeahead(null, {
+    source: autocomplete_results
+  });
+</script>

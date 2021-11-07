@@ -11,6 +11,26 @@ class SearchController < ApplicationController
     @organizations_by_name, @organizations_by_services_hash = search_db(@query)
   end
 
+  def autocomplete
+    @autocomplete_results = Organization.search(
+      params[:query],
+      fields: ['name'],
+      match: :word_start,
+      limit: 10,
+      load: false,
+      misspellings: { below: 5 }
+    ).map(&:name) | Service.search(
+      params[:query],
+      fields: ['name'],
+      match: :word_start,
+      limit: 10,
+      load: false,
+      misspellings: { below: 5 }
+    ).map(&:name)
+
+    render json: @autocomplete_results
+  end
+
   private
 
   def elasticsearch_available?
@@ -34,8 +54,8 @@ class SearchController < ApplicationController
   end
 
   def search_db(query)
-    organizations_by_name = Organization.where('name like ?', "%#{query}%").to_a
-    services = Service.where('name like ?', "%#{query}%").to_a
+    organizations_by_name = Organization.where('name like ?', "#{query}%").to_a
+    services = Service.where('name like ?', "#{query}%").to_a
 
     process_search_results(organizations_by_name, services)
   end

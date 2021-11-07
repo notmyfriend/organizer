@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :reservations
 
   get '/search', to: 'search#index'
+  get 'search/autocomplete', to: 'search#autocomplete'
 
   get 'home/index'
   root to: 'home#index'
