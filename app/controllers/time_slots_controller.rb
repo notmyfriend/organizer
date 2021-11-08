@@ -10,8 +10,6 @@ class TimeSlotsController < ApplicationController
   end
 
   def create
-    org_service_id = @organization_service.id
-
     start_time = get_datetime('start_time')
     end_time = get_datetime('end_time')
     duration = time_slot_params[:time_slot_duration].to_i
@@ -30,7 +28,7 @@ class TimeSlotsController < ApplicationController
 
         unless overlaps?(TimeSlot.new(start_time: time_slot_start_time, end_time: time_slot_end_time))
           time_slots_params_array << {
-            organization_service_id: org_service_id,
+            organization_service_id: @organization_service.id,
             start_time: time_slot_start_time,
             end_time: time_slot_end_time,
             status: :vacant
@@ -52,14 +50,15 @@ class TimeSlotsController < ApplicationController
     end
   end
 
-  def edit  # на странице один datepicker и один timepicker
+  def edit  # на странице один datepicker и два timepicker'а
     @time_slot = @organization_service.time_slots.find(params[:id])
   end
 
   def update
     @time_slot = @organization_service.time_slots.find(params[:id])
+    updated_time_slot = TimeSlot.new(time_slot_params)
 
-    if !overlaps?(@time_slot)
+    if !overlaps?(updated_time_slot, @time_slot.id)
       if @time_slot.update(time_slot_params)
         redirect_to organization_service_time_slots_path(@organization_service)
       else
@@ -102,17 +101,17 @@ class TimeSlotsController < ApplicationController
     )
   end
 
-  def overlaps?(time_interval)
+  def overlaps?(time_slot, currently_edited_time_slot_id = nil)
     overlappings = @organization_service.time_slots.where(
       '
       (end_time > ? and ? > end_time) or
       (start_time > ? and start_time < ?) or
       (start_time <= ? and end_time >= ?)
       ',
-      time_interval.start_time, time_interval.end_time,
-      time_interval.start_time, time_interval.end_time,
-      time_interval.start_time, time_interval.end_time
-    )
+      time_slot.start_time, time_slot.end_time,
+      time_slot.start_time, time_slot.end_time,
+      time_slot.start_time, time_slot.end_time
+    ).where.not(id: currently_edited_time_slot_id)
 
     !overlappings.empty?
   end
