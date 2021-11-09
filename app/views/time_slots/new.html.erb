@@ -1,22 +1,38 @@
 <h1>New time slots</h1>
 
 <%= form_with model: [@organization_service, @time_slot] do |f| %>
-  <div class="field">
-    <%= f.label :start_time %><br />
-    <%= f.datetime_select :start_time, minute_step: 5 %>
+  <div>
+    <div>
+      <%= f.label :choose_start_date %><br />
+      <%= f.text_field :start_date, class: 'datepicker', id: 'from-date' %>
+    </div>
+
+    <div>
+      <%= f.label :choose_start_time %><br />
+      <%= f.text_field :start_time, class: 'timepicker', id: 'from-time' %>
+    </div>
+  </div>
+
+  <div>
+    <div>
+      <%= f.label :choose_end_date %><br />
+      <%= f.text_field :end_date, class: 'datepicker', id: 'to-date' %>
+    </div>
+
+    <div>
+      <%= f.label :choose_end_time %><br />
+      <%= f.text_field :end_time, class: 'timepicker', id: 'to-time' %>
+    </div>
   </div>
 
   <div class="field">
-    <%= f.label :end_time %><br />
-    <%= f.datetime_select :end_time, minute_step: 5 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :time_slot_duration %><br />
-    <%= f.number_field :time_slot_duration , min: 5, max: 240, step: 5  %> minutes
+    <%= f.label 'time slot duration (minutes)' %><br />
+    <%= f.number_field :time_slot_duration , min: 5, max: 240, step: 5, value: 30 %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Create" %>
+    <%= f.submit "Create", id: 'submit' %>
   </div>
 <% end %>
+
+<%= javascript_pack_tag 'time_slots' %>

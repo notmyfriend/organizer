@@ -10,9 +10,17 @@ class TimeSlotsController < ApplicationController
   end
 
   def create
-    start_time = get_datetime('start_time')
-    end_time = get_datetime('end_time')
+    start_time = get_datetime('start')
+    end_time = get_datetime('end')
+
     duration = time_slot_params[:time_slot_duration].to_i
+
+    @time_slot = TimeSlot.new
+
+    if duration.zero? || duration.nil?
+      render :new
+      return
+    end
 
     time_slots_params_array = []
 
@@ -50,16 +58,20 @@ class TimeSlotsController < ApplicationController
     end
   end
 
-  def edit  # на странице один datepicker и два timepicker'а
+  def edit
     @time_slot = @organization_service.time_slots.find(params[:id])
   end
 
   def update
     @time_slot = @organization_service.time_slots.find(params[:id])
-    updated_time_slot = TimeSlot.new(time_slot_params)
+
+    start_time = get_datetime('start')
+    end_time = get_datetime('end')
+
+    updated_time_slot = TimeSlot.new(start_time: start_time, end_time: end_time)
 
     if !overlaps?(updated_time_slot, @time_slot.id)
-      if @time_slot.update(time_slot_params)
+      if @time_slot.update(start_time: start_time, end_time: end_time)
         redirect_to organization_service_time_slots_path(@organization_service)
       else
         render :edit
@@ -80,7 +92,9 @@ class TimeSlotsController < ApplicationController
 
   def time_slot_params
     params.require(:time_slot).permit(
+      :start_date,
       :start_time,
+      :end_date,
       :end_time,
       :time_slot_duration,
       :status
@@ -92,12 +106,8 @@ class TimeSlotsController < ApplicationController
   end
 
   def get_datetime(time)
-    DateTime.new(
-      time_slot_params["#{time}(1i)"].to_i,
-      time_slot_params["#{time}(2i)"].to_i,
-      time_slot_params["#{time}(3i)"].to_i,
-      time_slot_params["#{time}(4i)"].to_i,
-      time_slot_params["#{time}(5i)"].to_i
+    DateTime.parse(
+      "#{time_slot_params["#{time}_date"]} #{time_slot_params["#{time}_time"]}"
     )
   end
 

@@ -1,7 +1,7 @@
 <%= form_with url: reservations_path do |f| %>
   <div>
     <%= f.label :choose_date %><br />
-    <%= f.date_field :date %>
+    <%= f.text_field :date, class: 'datepicker' %>
   </div>
  
   <div class="actions">
@@ -13,25 +13,27 @@
     <% end %>
   </div>
 
-  <% unless @time_slots.nil?%>
+  <div class="row">
+    <% unless @time_slots.nil?%>
     <% if @time_slots.empty? %>
       <p>currently there are no time slots</p>
     <% else %>
       <% @time_slots.each do |time_slot| %>
-        <div>
-          <li>
-            <%= time_slot.start_time.in_time_zone('Minsk').to_s(:time) + ' - ' + time_slot.end_time.in_time_zone('Minsk').to_s(:time) %>
-          </li>
-          <li>
-            <% if time_slot.vacant? %>
-              <%= f.radio_button :time_slot_id, time_slot.id %>
-            <% else %>
-              notify when vacant? <%= f.check_box :notify_time_slot_ids, { multiple: true }, time_slot.id, nil %>
-            <% end %>
-          </li> 
+        <div class="col s3">
+          
+          <%= time_slot.start_time.in_time_zone('Minsk').to_s(:time) + ' - ' + time_slot.end_time.in_time_zone('Minsk').to_s(:time) %>
+        
+          <% if time_slot.vacant? %>
+            <%= f.radio_button :time_slot_id, time_slot.id %>
+          <% else %>
+            <p>notify when vacant? <%= f.check_box :notify_time_slot_ids, { multiple: true }, time_slot.id, nil %></p>
+          <% end %>
+          
         </div>
       <% end %>
     <% end %>
   <% end %>
-
+  </div>
 <% end %>
+
+<%= javascript_pack_tag 'reservations' %>

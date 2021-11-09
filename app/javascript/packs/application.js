@@ -8,3 +8,5 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("jquery")
+
+import 'materialize-css/dist/js/materialize'
