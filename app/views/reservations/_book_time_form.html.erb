@@ -1,0 +1,23 @@
+<%= form_with model: [@organization_service, Reservation.new] do |f| %>
+  <div class="actions">
+    <%= f.submit "book" %>
+    regular? <%= f.select :regular, [:no, :weekly, :monthly] %>
+  </div>
+
+  <%= f.label :choose_time %>
+  <div class="row">
+    <% @time_slots.each do |time_slot| %>
+      <div class="col s3">
+          
+          <%= time_slot.start_time.in_time_zone('Minsk').to_s(:time) + ' - ' + time_slot.end_time.in_time_zone('Minsk').to_s(:time) %>
+      
+          <% if time_slot.vacant? %>
+          <%= f.radio_button :time_slot_id, time_slot.id %>
+          <% else %>
+          <p>notify when vacant? <%= f.check_box :notify_time_slot_ids, { multiple: true }, time_slot.id, nil %></p>
+          <% end %>
+          
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -3,7 +3,7 @@
 <div><%= link_to 'profile', user_path(current_user.id) %></div>
 <div><%= link_to 'sign out', destroy_user_session_path, method: :delete %></div>
 
-<div class="ui-widget"> 
+<div> 
   <%= form_with url: '/search', method: :get do |form| %>
     <%= form.label :search_query, "Search for organization:" %>
     <%= form.text_field :search_query, id: 'query' %>

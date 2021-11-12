@@ -1,39 +1,10 @@
-<%= form_with url: reservations_path do |f| %>
-  <div>
-    <%= f.label :choose_date %><br />
-    <%= f.text_field :date, class: 'datepicker' %>
-  </div>
- 
-  <div class="actions">
-    <%= hidden_field_tag(:organization_service_id, params[:organization_service_id]) %> <!-- delete when configure proper routing -->
-    <%= f.submit "search available time" %>
-    <% unless @time_slots.nil? || @time_slots.empty? %>
-      <%= f.submit "book" %>
-      regular? <%= f.select :regular, [:no, :weekly, :monthly] %>
-    <% end %>
-  </div>
+<h1>Create new reservation</h1>
 
-  <div class="row">
-    <% unless @time_slots.nil?%>
-    <% if @time_slots.empty? %>
-      <p>currently there are no time slots</p>
-    <% else %>
-      <% @time_slots.each do |time_slot| %>
-        <div class="col s3">
-          
-          <%= time_slot.start_time.in_time_zone('Minsk').to_s(:time) + ' - ' + time_slot.end_time.in_time_zone('Minsk').to_s(:time) %>
-        
-          <% if time_slot.vacant? %>
-            <%= f.radio_button :time_slot_id, time_slot.id %>
-          <% else %>
-            <p>notify when vacant? <%= f.check_box :notify_time_slot_ids, { multiple: true }, time_slot.id, nil %></p>
-          <% end %>
-          
-        </div>
-      <% end %>
-    <% end %>
-  <% end %>
-  </div>
-<% end %>
+<div id="available-time-container">
+  <%= render partial: 'available_time_form' %>
+</div>
+
+<div id="book-time-container">
+</div>
 
 <%= javascript_pack_tag 'reservations' %>

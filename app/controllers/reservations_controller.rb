@@ -1,103 +1,41 @@
 class ReservationsController < ApplicationController
+  before_action :find_organization_service, only: [:new, :create, :available_time]
+
+  respond_to :js, only: [:available_time]
+
   def new
     @reservation = Reservation.new
   end
 
+  def available_time
+    return if params[:date].blank?
+
+    date = Date.parse(params[:date])
+    @time_slots = TimeSlot.where(
+      start_time: date.beginning_of_day..date.end_of_day,
+      organization_service_id: @organization_service.id
+    )
+  end
+
   def create
-    if params[:commit] == 'search available time'
-      unless params[:date].empty?
-        date = Date.parse(params[:date])
-        @time_slots = TimeSlot.where(
-          start_time: date.beginning_of_day..date.end_of_day,
-          organization_service_id: params[:organization_service_id]
-        )
-      end
+    service = ReservationService.new(current_user, reservation_params)
+    service.call
 
-      render :new
-    end
+    unavailable_time = service.unavailable_time
 
-    if params[:commit] == 'book'
-      unless params[:notify_time_slot_ids].nil?
-        Subscription.transaction do
-          params[:notify_time_slot_ids].each do |id|
-            current_user.subscriptions.create!(time_slot_id: id)
-          end
-        end
-      end
-
-      unless params[:time_slot_id].nil?
-        reservations_params_array = []
-        unavailable_time = []
-
-        reservations_params_array << {
-          user_id: current_user.id,
-          time_slot_id: params[:time_slot_id]
-        }
-
-        unless params[:regular] == 'no'
-          temp_date = DateTime.current + 2.month
-          end_date = DateTime.new(temp_date.year, temp_date.month)
-
-          start_time = TimeSlot.find(params[:time_slot_id]).start_time
-
-          until start_time >= end_date
-            start_time = params[:regular] == 'weekly' ? start_time + 1.week : start_time + 1.month
-            time_slot = TimeSlot.find_by(
-              organization_service_id: params[:organization_service_id],
-              start_time: start_time
-            )
-            if time_slot.nil?
-              unavailable_time << start_time.strftime("%Y-%m-%d %H:%M")
-            else
-              reservations_params_array << {
-                user_id: current_user.id,
-                time_slot_id: time_slot.id
-              }
-            end
-          end
-        end
-
-        begin
-          Reservation.transaction do
-            @reservations = Reservation.create!(reservations_params_array)
-          end
-
-          Reservation.transaction do
-            @reservations.each do |reservation|
-              reservation.time_slot.update!(status: :booked)
-            end
-          end
-        rescue ActiveRecord::RecordInvalid # => e
-          render :new
-        else
-          reservations_ids = []
-          @reservations.each do |reservation|
-            reservations_ids << reservation.id
-          end
-
-          ReservationMailer.with(
-            user_id: current_user.id,
-            reservations_ids: reservations_ids
-          ).new_reservation_email.deliver_later
-
-          unless unavailable_time.empty?
-            flash[:notice] = "Unable to book following time:
-                              #{unavailable_time.join(', ')}."
-          end
-          redirect_to root_path
-        end
-
-      else
-        render :new
-      end
-
-    end
+    flash[:notice] = "Unable to book following time: #{unavailable_time.join(', ')}." unless unavailable_time.blank?
+    redirect_to root_path
+  rescue ActiveRecord::RecordInvalid => e
+    flash[:alert] = e.message
+    redirect_to new_organization_service_reservation_path(@organization_service)
   end
 
   def destroy
     @reservation = Reservation.find(params[:id])
     @reservation.destroy
+
     ReservationMailer.with(reservation: @reservation).cancel_reservation_email.deliver_now
+
     @reservation.time_slot.update(status: :vacant)
     TimeSlotStatusChangeWorker.perform_async(@reservation.time_slot_id)
 
@@ -106,7 +44,11 @@ class ReservationsController < ApplicationController
 
   private
 
-  # def reservation_params
-  #   params.require(:reservation).permit(:user_id, :time_slot_id, :date)
-  # end
+  def reservation_params
+    params.require(:reservation).permit(:time_slot_id, :notify_time_slot_ids, :regular)
+  end
+
+  def find_organization_service
+    @organization_service = OrganizationService.find(params[:organization_service_id])
+  end
 end

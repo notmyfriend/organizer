@@ -27,12 +27,15 @@ Rails.application.routes.draw do
   resources :organization_services do
     resources :time_slots
     resources :workers, except: [:index, :show]
+
+    resources :reservations, only: [:new, :create]
+    post '/reservations/available_time', to: 'reservations#available_time'
   end
 
-  resources :reservations
+  resources :reservations, only: [:destroy]
 
   get '/search', to: 'search#index'
-  get 'search/autocomplete', to: 'search#autocomplete'
+  get '/search/autocomplete', to: 'search#autocomplete'
 
   get 'home/index'
   root to: 'home#index'

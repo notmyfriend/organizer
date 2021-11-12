@@ -7,7 +7,7 @@
   <% @organization.organization_services.each do |org_service| %>
     <div>
       <%= org_service.service.name %>
-      <%= link_to 'book time', new_reservation_path(organization_service_id: org_service.id) %> <!-- delete local param when configure proper routing -->
+      <%= link_to 'book time', new_organization_service_reservation_path(org_service) %>
       <% unless org_service.workers.empty? %>
         <div style="padding: 10px;">
           <p >Staff:</p>

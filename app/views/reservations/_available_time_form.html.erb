@@ -1,0 +1,10 @@
+<%= form_with(url: organization_service_reservations_available_time_path(@organization_service), local: false) do |f| %>
+  <div>
+    <%= f.label :choose_date %><br />
+    <%= f.text_field :date, class: 'datepicker' %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "search available time" %>
+  </div>
+<% end %>
