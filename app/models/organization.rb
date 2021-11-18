@@ -10,6 +10,10 @@
 #  description :text             default(""), not null
 #
 class Organization < ApplicationRecord
+  validates :name, uniqueness: true, presence: true
+  validates :description, presence: true
+  validates :user_id, presence: true
+
   belongs_to :user, -> { where role: :owner }
 
   has_many :organization_services, dependent: :destroy
