@@ -30,7 +30,16 @@ class User < ApplicationRecord
   has_many :subscriptions, dependent: :destroy
   has_many :comments,      dependent: :destroy
 
-  enum role: [:client, :owner, :admin]
-  enum notifications: ['do not notify', '15 minutes', '3 hours', '1 day']
+  enum role: {
+    client: 0,
+    owner: 1,
+    admin: 2
+  }
 
+  enum notifications: {
+    'do not notify': 0,
+    '15 minutes': 1,
+    '3 hours': 2,
+    '1 day': 3
+  }
 end

@@ -15,5 +15,8 @@ class TimeSlot < ApplicationRecord
   has_one :reservation,    dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
-  enum status: [:vacant, :booked]
+  enum status: {
+    vacant: 0,
+    booked: 1
+  }
 end
