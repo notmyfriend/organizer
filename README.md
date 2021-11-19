@@ -1,24 +1,21 @@
-# README
+# Organizer
+  Органайзер - приложение, позволяющее пользователям бронировать время на услуги, предоставляемые различными организациями.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Самое сложное задание
+Проработка структуры базы данных.
 
-Things you may want to cover:
+# Самое интересное задание
+Реализация паттернов.
 
-* Ruby version
+# Что можно было бы сделать, если бы было больше времени
+* лучше проработать UI/UX
+* сделать покрытие тестами, близкое к 100%
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Инструкция по развёртыванию
+* git clone https://github.com/notmyfriend/organizer.git
+* установить postgresql
+* установить elasticsearch
+* bundle install
+* rails db:create db:migrate db:seed
+* bundle exec sidekiq
+* rails server
