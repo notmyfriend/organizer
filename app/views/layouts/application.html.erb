@@ -11,8 +11,25 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="<%= root_path %>" class="brand-logo center">Organizer</a>
+        <% if user_signed_in? %>
+          <div class="brand-logo right">
+            <h6>
+              <%= link_to "#{current_user.first_name} #{current_user.last_name}", user_path(current_user.id)%> |
+              <%= link_to 'sign out', destroy_user_session_path, method: :delete %>
+            </h6>
+          </div>
+        <% end %>
+      </div>
+    </nav>
+
+    <div class="center">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+    </div>
+    
     <div class="container">
       <%= yield %>
     </div>

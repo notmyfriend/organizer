@@ -7,12 +7,12 @@ class ReservationService
 
   MONTH_AHEAD = 3
 
-  def initialize(user, options)
+  def initialize(user, params)
     @user = user
 
-    options.each_pair do |key, value|
-      instance_variable_set("@#{key}", value)
-    end
+    @time_slot_id = params[:reservation][:time_slot_id]
+    @notify_time_slot_ids = params[:reservation][:notify_time_slot_ids]
+    @regular = params[:reservation][:regular]
   end
 
   def call

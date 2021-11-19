@@ -18,7 +18,7 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    service = ReservationService.new(current_user, reservation_params)
+    service = ReservationService.new(current_user, params)
     service.call
 
     unavailable_time = service.unavailable_time
@@ -32,21 +32,18 @@ class ReservationsController < ApplicationController
 
   def destroy
     @reservation = Reservation.find(params[:id])
+    time_slot_id = @reservation.time_slot_id
     @reservation.destroy
 
     ReservationMailer.with(reservation: @reservation).cancel_reservation_email.deliver_now
 
     @reservation.time_slot.update(status: :vacant)
-    TimeSlotStatusChangeWorker.perform_async(@reservation.time_slot_id)
+    TimeSlotStatusChangeWorker.perform_async(time_slot_id)
 
     redirect_to root_path
   end
 
   private
-
-  def reservation_params
-    params.require(:reservation).permit(:time_slot_id, :notify_time_slot_ids, :regular)
-  end
 
   def find_organization_service
     @organization_service = OrganizationService.find(params[:organization_service_id])

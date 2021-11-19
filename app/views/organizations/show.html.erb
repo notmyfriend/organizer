@@ -3,11 +3,11 @@
 <div id="org-description"><%= @organization.description %></div>
 
 <% unless @organization.organization_services.empty? %>
-  <p>Available services:</d>
+  <p>Доступные услуги:</d>
   <% @organization.organization_services.each do |org_service| %>
-    <div>
+    <div style="padding-left: 10px;">
       <%= org_service.service.name %>
-      <%= link_to 'book time', new_organization_service_reservation_path(org_service) %>
+      <%= link_to 'забронировать время', new_organization_service_reservation_path(org_service) %>
       <% unless org_service.workers.empty? %>
         <div style="padding: 10px;">
           <p >Staff:</p>
@@ -21,7 +21,7 @@
     </div>
   <% end %>
 <% else %>
-  <p>Currently there are no available services</p>
+  <p>На данный момент нет доступных услуг</p>
 <% end %>
 
 

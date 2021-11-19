@@ -54,8 +54,8 @@ class SearchController < ApplicationController
   end
 
   def search_db(query)
-    organizations_by_name = Organization.where('name like ?', "#{query}%").to_a
-    services = Service.where('name like ?', "#{query}%").to_a
+    organizations_by_name = Organization.where('name like ?', "%#{query}%").to_a
+    services = Service.where('name like ?', "%#{query}%").to_a
 
     process_search_results(organizations_by_name, services)
   end

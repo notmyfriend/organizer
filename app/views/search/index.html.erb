@@ -12,9 +12,11 @@
   <% @organizations_by_services_hash.keys.each do |organization| %>
     <div>
         <h5><%= link_to organization.name, organization_path(organization.id) %></h5>
-        Services:
         <% @organizations_by_services_hash[organization].each do |service| %>
-          <b><%= service.name %></b>
+          <li style="padding-left: 10px;">
+            <% organization_service = organization.organization_services.find_by(service_id: service.id) %>
+            <%= link_to service.name, new_organization_service_reservation_path(organization_service) %>
+          </li>
         <% end %>
     </div>
   <% end %>
