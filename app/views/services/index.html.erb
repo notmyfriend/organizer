@@ -1,0 +1,30 @@
+<h1>Services</h1>
+
+<%= link_to 'create service', new_service_path %>
+
+<% unless @services.empty? %>
+  <table>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>created at</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @services.each do |service| %>
+        <tr>
+          <td><%= service.id %></td>
+          <td><%= service.name %></td>
+          <td><%= service.created_at %></td>
+          <td><%= link_to "Edit", edit_service_path(service) %></td>
+          <td><%= link_to "Destroy", service, method: :delete, data: { confirm: "Are you sure?" } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <tr>Currently there are no services</tr>
+<% end %>

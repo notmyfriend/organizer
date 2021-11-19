@@ -1,0 +1,12 @@
+<h1>Add service to "<%= @organization.name %>"</h1>
+
+<%= form_with model: [@organization, @organization_service] do |f| %>
+  <div class="field">
+    <%= f.label :service_id %><br />
+    <%= f.select :service_id, Service.all.collect {|service| [service.name, service.id]} %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create" %>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+<h1>Create new woker</h1>
+
+<%= form_with model: [@organization_service, @worker] do |f| %>
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, autofocus: 'true' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :qualification %><br />
+    <%= f.text_field :qualification %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Create" %>
+  </div>
+<% end %>

@@ -1,0 +1,15 @@
+// Place all the styles related to the reservations controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+[type="radio"]:not(:checked), [type="radio"]:checked, [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: relative !important;
+    opacity: 100 !important;
+    pointer-events: auto !important;
+}
+
+select {
+    opacity: 100 !important;
+    width: auto !important;
+    height: auto !important;
+}

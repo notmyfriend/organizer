@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: subscriptions
+#
+#  id           :bigint           not null, primary key
+#  user_id      :bigint           not null
+#  time_slot_id :bigint           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
+one:
+  user: one
+  time_slot: one
+
+two:
+  user: two
+  time_slot: two

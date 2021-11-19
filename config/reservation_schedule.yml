@@ -1,0 +1,4 @@
+send_reservation_start_reminder:
+  cron: "*/5 * * * *"
+  class: "ReservationScheduleWorker"
+  queue: default

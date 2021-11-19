@@ -1,0 +1,13 @@
+Your reservation was successfully created!
+
+Reservation details
+
+<% @reservations.each do |reservation| %>
+--------------------------
+  Reservation id: <%= reservation.id %>
+  Organization: <%= reservation.time_slot.organization_service.organization.name %>
+  Service: <%= reservation.time_slot.organization_service.service.name %>
+  start time: <%= reservation.time_slot.start_time.in_time_zone('Minsk') %>
+  end time: <%= reservation.time_slot.end_time.in_time_zone('Minsk') %>
+<% end %>
+-------------

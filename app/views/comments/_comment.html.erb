@@ -1,0 +1,24 @@
+<div class="comment" id="comment-<%= comment.id %>" style="padding: 10px;">
+  <div class="comment-content-cotainer">
+    <p class="comment-user"><%= comment.user.first_name + ' ' + comment.user.last_name %></p>
+    <p class="comment-content"><%= comment.deleted ? 'Comment deleted' : comment.content %></p>
+  </div>
+
+  <div class="comment-actions-container">
+    <% unless comment.deleted? %>
+      <% if current_user.admin? %>
+        <%= link_to 'delete', comment, remote: true, method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% end %>    
+
+      <%= form_with(model: [comment, Comment.new], id: 'new-comment-reply', local: false) do |f| %>
+        <%= f.text_area :content %><br/> 
+        <%= f.submit :reply %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="comment-replies">
+    <%= render partial: 'comments/comment', collection: comment.comments.order(id: :asc) %>
+  </div>
+</div>
+

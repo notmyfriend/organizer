@@ -1,0 +1,30 @@
+<h2>edit time slot</h2>
+
+
+<%= form_with model: [@organization_service, @time_slot] do |f| %>
+    <div>
+      <%= f.label :choose_date %><br />
+      <%= f.text_field :start_date, class: 'datepicker', id: 'from-date' %>
+    </div>
+
+    <div>
+      <%= f.label :choose_start_time %><br />
+      <%= f.text_field :start_time, class: 'timepicker', id: 'from-time' %>
+    </div>
+
+    <div style="display: none;">
+      <%= f.label :choose_end_date %><br />
+      <%= f.text_field :end_date, class: 'datepicker', id: 'to-date' %>
+    </div>
+
+    <div>
+      <%= f.label :choose_end_time %><br />
+      <%= f.text_field :end_time, class: 'timepicker', id: 'to-time' %>
+    </div>
+
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+<% end %>
+
+<%= javascript_pack_tag 'time_slots' %>

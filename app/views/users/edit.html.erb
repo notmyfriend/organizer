@@ -1,0 +1,30 @@
+<%= form_with model: @user do |f| %>
+  <div class="field">
+    <%= f.label :first_name %><br />
+    <%= f.text_field :first_name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :last_name %><br />
+    <%= f.text_field :last_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :role %><br />
+    <%= f.select :role, [:client, :owner, :admin] %>
+  </div>
+
+  <div class="field">
+    <%= f.label :notifications %><br />
+    <%= f.select :notifications, ['do not notify', '15 minutes', '3 hours', '1 day'], selected: @user.notifications %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+<% end %>

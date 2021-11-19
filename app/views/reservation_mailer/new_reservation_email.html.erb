@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>Your reservation was successfully created!</p>
+    <p>
+    Reservation details<br>
+    
+    <% @reservations.each do |reservation| %>
+    --------------------------
+      </p>
+      <p>Reservation id: <%= reservation.id %></p>
+      <p>Organization: <%= reservation.time_slot.organization_service.organization.name %></p>
+      <p>Service: <%= reservation.time_slot.organization_service.service.name %></p>
+      <p>start time: <%= reservation.time_slot.start_time.in_time_zone('Minsk') %></p>
+      <p>end time: <%= reservation.time_slot.end_time.in_time_zone('Minsk') %></p>
+      <p>
+    <% end %>
+    -------------
+    
+    </p>
+  </body>
+</html>

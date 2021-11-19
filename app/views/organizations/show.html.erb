@@ -1,0 +1,42 @@
+<h1><%= @organization.name %></h1>
+
+<div id="org-description"><%= @organization.description %></div>
+
+<% unless @organization.organization_services.empty? %>
+  <p>Доступные услуги:</d>
+  <% @organization.organization_services.each do |org_service| %>
+    <div style="padding-left: 10px;">
+      <%= org_service.service.name %>
+      <%= link_to 'забронировать время', new_organization_service_reservation_path(org_service) %>
+      <% unless org_service.workers.empty? %>
+        <div style="padding: 10px;">
+          <p >Staff:</p>
+          <ul>
+            <% org_service.workers.each do |worker| %>
+              <li><%= "#{worker.last_name} #{worker.first_name} - #{worker.qualification}" %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <p>На данный момент нет доступных услуг</p>
+<% end %>
+
+
+<div id="comments-section">
+  <div id="header">
+    <h5>Comments</h5>
+
+    <%= form_with(model: [@organization, Comment.new], id: 'new-comment-form', local: false) do |f| %>
+      <%= f.text_area :content %><br/> 
+      <%= f.submit 'add comment' %>
+    <% end %>
+  </div>
+
+  <div id="comments">
+    <%= render partial: 'comments/comment', collection: @organization.comments.order(id: :asc) %>
+  </div>
+</div>
+

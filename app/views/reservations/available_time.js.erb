@@ -1,0 +1,6 @@
+<% if @time_slots.empty? %>
+    $("#book-time-container").html("");
+    alert('No available time on this date.')
+<% else %>
+    $("#book-time-container").html("<%= j render partial: 'book_time_form' %>");
+<% end %>

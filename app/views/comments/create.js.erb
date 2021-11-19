@@ -1,0 +1,6 @@
+<% if @comment.commentable_type == 'Organization' %>
+  document.querySelector("#comments").insertAdjacentHTML('beforeEnd', "<%= j render(@comment) %>");
+<% else %>
+  document.querySelector("#comment-<%= @comment.commentable_id %>")
+          .querySelector(".comment-replies").insertAdjacentHTML('beforeEnd', "<%= j render(@comment) %>");
+<% end  %>

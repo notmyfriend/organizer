@@ -1,0 +1,46 @@
+<h1>Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>role</th>
+      <th>first name</th>
+      <th>last name</th>
+      <th>email</th>
+      <th>notifications</th>
+      <th>created at</th>
+      <th>locked</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.role %></td>
+        <td><%= user.first_name %></td>
+        <td><%= user.last_name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.notifications %></td>
+        <td><%= user.created_at %></td>
+        <td><%= user.locked_at || 'no' %></td>
+        <td><%= link_to "Show", user %></td>
+        <td><%= link_to "Edit", edit_user_path(user) %></td>
+        <td>
+          <% if user.locked_at %>
+            <%= link_to "Unlock", user_unlock_path(user) %>
+          <% else %>
+            <%= link_to "Lock", user_lock_path(user) %>
+          <% end %>
+        </td>
+        <td><%= link_to "Destroy", user, method: :delete, data: { confirm: "Are you sure?" } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%# <%= link_to "New user", new_user_registration %> 

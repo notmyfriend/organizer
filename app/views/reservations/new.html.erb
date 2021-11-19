@@ -1,0 +1,10 @@
+<h5>Создание резервации для услуги "<%= @organization_service.service.name%>" организации "<%= @organization_service.organization.name %>"</h5>
+
+<div id="available-time-container">
+  <%= render partial: 'available_time_form' %>
+</div>
+
+<div id="book-time-container">
+</div>
+
+<%= javascript_pack_tag 'reservations' %>
